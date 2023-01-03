@@ -1,11 +1,15 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 
-const PostSchema = mongoose.Schema({
-  id: {
-    // TODO: Will reference the user that made the post
+const PostSchema = Schema({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
   },
   post: {
     type: String,
     required: true,
   },
 });
+
+const Post = model("Post", PostSchema);
+module.exports = Post;

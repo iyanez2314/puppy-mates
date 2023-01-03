@@ -1,3 +1,6 @@
+require("./models/Groups");
+require("./models/Users");
+require("./models/Posts");
 const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();

@@ -1,9 +1,8 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
+const Groups = require("./Groups");
+const Post = require("./Posts");
 
-const UserSchema = new mongoose.Schema({
-  id: {
-    // TODO: Need to figure out how to auto-generate an id per user
-  },
+const UserSchema = new Schema({
   fullName: {
     type: String,
     required: true,
@@ -25,6 +24,20 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  groups: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Groups",
+    },
+  ],
+  posts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
 });
 
-mongoose.model("User", UserSchema);
+const User = model("User", UserSchema);
+
+module.exports = User;
