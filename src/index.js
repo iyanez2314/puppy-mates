@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Here we are saving a varaiable with the PORT that we are going to listen on
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const mongooseUri = process.env.MONGO_URI;
 
 mongoose.connect(mongooseUri);
