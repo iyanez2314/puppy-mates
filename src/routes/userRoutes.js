@@ -4,12 +4,14 @@ const User = mongoose.model("User");
 
 const router = express.Router();
 
-router.put("/userId", async (req, res) => {
-  const { password, email, zip, fullName } = req.body;
+// Updating Any Users Info
+router.put("/user/:id", async (req, res) => {
+  const userId = req.params.id;
   try {
-    console.log(req.body);
-    // await User.findOneAndUpdate({ email });
-    // res.send("User found");
+    const updatedUser = await User.findOneAndUpdate({ _id: userId }, req.body, {
+      new: true,
+    });
+    res.send(updatedUser);
   } catch (error) {
     return res.sendStatus(400).send(error);
   }
