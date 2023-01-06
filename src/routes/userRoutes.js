@@ -5,18 +5,25 @@ const User = mongoose.model("User");
 const router = express.Router();
 
 // Updating Any Users Info
-router.put("/user/:id", async (req, res) => {
-  const userId = req.params.id;
-  try {
-    if (!userId) {
-      return res
-        .sendStatus(422)
-        .send({ error: "Please provide ID for the user" });
-    }
-    const updatedUser = await User.findOneAndUpdate({ _id: userId }, req.body, {
-      new: true,
+router.put("/user/:id", (req, res) => {
+  User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
+    .then((userData) => {
+      if (!userData) {
+        res.status(404).json({ message: "No user found with that Id!" });
+        return;
+      }
+      res.json(userData);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
     });
-    res.send(updatedUser);
+});
+
+// Fetch all the users with posts
+router.get("/user/:id", async (req, res) => {
+  try {
+    const getAllUsers = await User.findById(req.params.id).populate("posts");
+    res.send(getAllUsers);
   } catch (error) {
     return res.sendStatus(400).send(error);
   }

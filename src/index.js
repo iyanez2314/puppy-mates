@@ -5,6 +5,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const postRoutes = require("./routes/postRoutes");
 require("dotenv").config();
 
 // Creating a variable that is holding an instance of the express server
@@ -14,6 +15,7 @@ const app = express();
 app.use(express.json());
 app.use(authRoutes);
 app.use(userRoutes);
+app.use(postRoutes);
 app.use(express.urlencoded({ extended: true }));
 
 // Here we are saving a varaiable with the PORT that we are going to listen on
