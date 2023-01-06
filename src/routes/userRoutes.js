@@ -8,6 +8,11 @@ const router = express.Router();
 router.put("/user/:id", async (req, res) => {
   const userId = req.params.id;
   try {
+    if (!userId) {
+      return res
+        .sendStatus(422)
+        .send({ error: "Please provide ID for the user" });
+    }
     const updatedUser = await User.findOneAndUpdate({ _id: userId }, req.body, {
       new: true,
     });
