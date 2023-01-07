@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
+const groupRoutes = require("./routes/groupRoutes");
 require("dotenv").config();
 
 // Creating a variable that is holding an instance of the express server
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(authRoutes);
 app.use(userRoutes);
 app.use(postRoutes);
+app.use(groupRoutes);
 app.use(express.urlencoded({ extended: true }));
 
 // Here we are saving a varaiable with the PORT that we are going to listen on

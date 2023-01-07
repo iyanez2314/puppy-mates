@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Creating a post that is associated with said user
 
-router.post("/user/:id/posts", async (req, res) => {
+router.post("/posts/:id", async (req, res) => {
   try {
     const post = await Post.create({
       user: req.params.id,

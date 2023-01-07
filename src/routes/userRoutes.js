@@ -4,7 +4,7 @@ const User = mongoose.model("User");
 
 const router = express.Router();
 
-// Updating Any Users Info
+// TODO: NEED TO CHANGE THIS UP TO MATCH MY API SET UP
 router.put("/user/:id", (req, res) => {
   User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
     .then((userData) => {
