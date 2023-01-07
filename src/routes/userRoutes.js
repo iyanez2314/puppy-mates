@@ -19,11 +19,21 @@ router.put("/user/:id", (req, res) => {
     });
 });
 
-// Fetch all the users with posts
+// Fetch All users
+router.get("/users", async (req, res) => {
+  try {
+    const getAllUsers = await User.find().populate("posts");
+    res.send(getAllUsers);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+// Fetch user with ID
 router.get("/user/:id", async (req, res) => {
   try {
-    const getAllUsers = await User.findById(req.params.id).populate("posts");
-    res.send(getAllUsers);
+    const getAllUserById = await User.findById(req.params.id).populate("posts");
+    res.send(getAllUserById);
   } catch (error) {
     return res.sendStatus(400).send(error);
   }
