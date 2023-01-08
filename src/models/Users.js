@@ -68,6 +68,28 @@ UserSchema.pre("save", function (next) {
   });
 });
 
+/**
+ *
+ * @param {*} canidatePassword Will be the password we receive when we try to login
+ * @returns will return true or false depending if the password entered matched the hashed password stored
+ */
+UserSchema.methods.comparePassword = function (canidatePassword) {
+  const user = this;
+  return new Promise((res, rej) => {
+    bcrypt.compare(canidatePassword, user.password, (err, isMatch) => {
+      if (err) {
+        return rej(err);
+      }
+
+      if (!isMatch) {
+        return rej(false);
+      }
+
+      res(true);
+    });
+  });
+};
+
 const User = model("User", UserSchema);
 
 module.exports = User;
