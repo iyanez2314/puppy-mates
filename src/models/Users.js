@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
-const Groups = require("./Groups");
+const Groups = require("./Dogs");
 const Post = require("./Posts");
 
 const UserSchema = new Schema({
@@ -22,14 +22,10 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  zip: {
-    type: Number,
-    required: true,
-  },
-  groups: [
+  Dogs: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Groups",
+      ref: "Dogs",
     },
   ],
   posts: [
