@@ -4,7 +4,6 @@ const User = mongoose.model("User");
 
 const router = express.Router();
 
-// TODO: NEED TO CHANGE THIS UP TO MATCH MY API SET UP
 router.put("/user/:id", async (req, res) => {
   try {
     const updatedUser = await User.findOneAndUpdate(
@@ -28,7 +27,7 @@ router.get("/users", async (req, res) => {
   }
 });
 
-// Fetch user with ID
+// // Fetch user with ID
 router.get("/user/:id", async (req, res) => {
   try {
     const getAllUserById = await User.findById(req.params.id).populate("posts");

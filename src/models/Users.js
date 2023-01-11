@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
-const Groups = require("./Dogs");
+const Dogs = require("./Dogs");
 const Post = require("./Posts");
 
 const UserSchema = new Schema({
@@ -22,7 +22,7 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  Dogs: [
+  dogs: [
     {
       type: Schema.Types.ObjectId,
       ref: "Dogs",
