@@ -15,11 +15,7 @@ const app = express();
 
 // This will allow us to parse the JSON data that we will be receiving
 app.use(express.json());
-// app.use(authRoutes);
-// app.use(userRoutes);
-// app.use(postRoutes);
-// app.use(dogRoutes);
-app.use(userRoutes);
+app.use("/api/users", userRoutes);
 app.use(express.urlencoded({ extended: true }));
 
 // Here we are saving a varaiable with the PORT that we are going to listen on
@@ -27,15 +23,15 @@ const PORT = process.env.PORT || 3000;
 const mongooseUri = process.env.MONGO_URI;
 mongoose.connect(mongooseUri);
 
-mongoose.connection.on("connected", () => {
-  console.log("Connected to mongo instance");
-});
+// mongoose.connection.on("connected", () => {
+//   console.log("Connected to mongo instance");
+// });
 
-mongoose.connection.on("error", (err) => {
-  console.error("Error connected to mongo", err);
-});
+// mongoose.connection.on("error", (err) => {
+//   console.error("Error connected to mongo", err);
+// });
 
 // This will allow us to receive a notification in our terminal that our server is on and listening
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Listening on port ${PORT}`);
+// });

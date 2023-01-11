@@ -3,7 +3,7 @@ const app = require("../routes/userRoutes");
 
 describe("GET /users", () => {
   it("should return a list of users", async () => {
-    const res = await request(app).get("/users");
+    const res = await request(app).get("/api/users");
     expect(res.status).toBe(200);
     expect(res.body).toHaveLength(1);
   });

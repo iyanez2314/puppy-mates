@@ -1,25 +1,19 @@
-const { Users } = require("../models");
+const { User } = require("../models");
 
 const userControllers = {
   // Get All users
   getAllUsers(req, res) {
-    Users.find({})
-      .populate({
-        path: "posts",
-      })
-      .populate({
-        path: "dogs",
-      })
+    User.find({})
       .then((dbUserData) => res.json(dbUserData))
       .catch((err) => {
         console.log(err);
-        res.status(400).json(err);
+        res.status(400).json({ message: "There was an error fetching users!" });
       });
   },
 
   // Updatind the user
   updateUser({ params, body }, res) {
-    Users.findOneAndUpdate({ _id: params.id }, body, { new: true })
+    User.findOneAndUpdate({ _id: params.id }, body, { new: true })
       .then((dbUserData) => {
         if (!dbUserData) {
           res.status(400).json({ message: "No user found with that id!" });
@@ -35,11 +29,16 @@ const userControllers = {
 
   // Getting a user by Id
   getUserById({ params }, res) {
-    Users.findOne({ _id: params.id }).then((dbUserData) => {
-      if (!dbUserData) {
-        res.status(404).json({ message: "No user found with this id!" });
-      }
-    });
+    User.findOne({ _id: params.id })
+      .then((dbUserData) => {
+        if (!dbUserData) {
+          res.status(404).json({ message: "No user found with this id!" });
+        }
+        res.json(dbUserData);
+      })
+      .catch((err) => {
+        res.status(400).json({ message: "Sorry this user does not exsist" });
+      });
   },
 };
 
