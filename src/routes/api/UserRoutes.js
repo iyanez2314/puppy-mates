@@ -6,7 +6,6 @@ const {
 } = require("../../controllers/Users-controllers");
 
 router.route("/users").get(getAllUsers);
-
 router.route("/users/:id").get(getUserById).put(updateUser);
 
 module.exports = router;
