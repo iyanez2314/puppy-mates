@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../routes/userRoutes");
+const app = require("../index");
 
 describe("GET /users", () => {
   it("should return a list of users", async () => {

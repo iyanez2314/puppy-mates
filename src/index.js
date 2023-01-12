@@ -3,10 +3,6 @@ require("./models/Users");
 require("./models/Posts");
 const express = require("express");
 const mongoose = require("mongoose");
-// const authRoutes = require("./routes/authRoutes");
-// const userRoutes = require("./routes/userRoutes");
-// const postRoutes = require("./routes/postRoutes");
-// const dogRoutes = require("./routes/dogRoutes");
 const userRoutes = require("./routes");
 require("dotenv").config();
 
@@ -23,15 +19,15 @@ const PORT = process.env.PORT || 3000;
 const mongooseUri = process.env.MONGO_URI;
 mongoose.connect(mongooseUri);
 
-// mongoose.connection.on("connected", () => {
-//   console.log("Connected to mongo instance");
-// });
+mongoose.connection.on("connected", () => {
+  console.log("Connected to mongo instance");
+});
 
-// mongoose.connection.on("error", (err) => {
-//   console.error("Error connected to mongo", err);
-// });
+mongoose.connection.on("error", (err) => {
+  console.error("Error connected to mongo", err);
+});
 
 // This will allow us to receive a notification in our terminal that our server is on and listening
-// app.listen(PORT, () => {
-//   console.log(`Listening on port ${PORT}`);
-// });
+app.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
+});
