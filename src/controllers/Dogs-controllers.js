@@ -1,12 +1,10 @@
-const { Dogs, Users } = require("../models");
+const { Dogs, User } = require("../models");
 
 const dogControllers = {
   // GET all users
   getAllDogs(req, res) {
     Dogs.find({})
-      .populate({
-        path: "users",
-      })
+      .populate("owner")
       .then((dbDogData) => {
         res.json(dbDogData);
       })
@@ -14,12 +12,12 @@ const dogControllers = {
         res.status();
       });
   },
-  addDogToUser({ params, body }) {
+  addDogToUser({ params, body }, res) {
     const userId = params.userId;
     const newDog = body;
     Dogs.create(newDog)
       .then((dbDogData) => {
-        return Users.findOneAndUpdate(
+        return User.findOneAndUpdate(
           { _id: userId },
           { $push: { dogs: dbDogData._id } },
           { new: true }

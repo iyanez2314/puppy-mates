@@ -4,8 +4,8 @@ const {
   addDogToUser,
 } = require("../../controllers/Dogs-controllers");
 
-router.route("/dogs").get(getAllDogs);
+router.route("/").get(getAllDogs);
 
-router.route(":userId/dogs").post(addDogToUser);
+router.route("/:userId/dogs").post(addDogToUser);
 
 module.exports = router;
