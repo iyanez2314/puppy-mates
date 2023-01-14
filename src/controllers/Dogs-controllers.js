@@ -28,6 +28,24 @@ const dogControllers = {
       });
   },
 
+  updateDogInfo({ params, body }, res) {
+    const userId = params.userId;
+    const dogId = params.dogId;
+    const updatedDogInfo = body;
+    Dogs.findOneAndUpdate({ _id: dogId }, updatedDogInfo, { new: true })
+      .then((dbDogData) => {
+        if (!dbDogData) {
+          res.status(404).json({ message: "No dog found with this id" });
+          return;
+        }
+        res.json(dbDogData);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
+
   addDogToUser({ params, body }, res) {
     const userId = params.userId;
     const newDog = body;
