@@ -35,7 +35,7 @@ const authRoutes = {
     try {
       await user.comparePassword(password);
       const token = jwt.sign({ userId: user._id }, process.env.MY_SECRET);
-      res.send({ token });
+      res.send("You are now signed in!");
     } catch (error) {
       return res.sendStatus(404).send({ error: "Invalid email or password" });
     }
