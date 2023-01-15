@@ -3,8 +3,8 @@ require("./models/Users");
 require("./models/Posts");
 const express = require("express");
 const mongoose = require("mongoose");
-const userRoutes = require("./routes");
-const dogRoutes = require("./routes");
+const routes = require("./routes");
+const routeMiddlewear = require("./middlewares/routeMiddleware");
 require("dotenv").config();
 
 // Creating a variable that is holding an instance of the express server
@@ -12,8 +12,8 @@ const app = express();
 
 // This will allow us to parse the JSON data that we will be receiving
 app.use(express.json());
-app.use(userRoutes);
-app.use(dogRoutes);
+app.use(routeMiddlewear);
+app.use(routes);
 app.use(express.urlencoded({ extended: true }));
 
 // Here we are saving a varaiable with the PORT that we are going to listen on
