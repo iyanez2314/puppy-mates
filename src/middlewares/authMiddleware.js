@@ -3,28 +3,29 @@ const mongoose = require("mongoose");
 const User = mongoose.model("User");
 require("dotenv").config();
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   // This will allow us to get the Authorization from the header
-  const { authorization } = req.headers; // When we make the request it will look something like this => 'Bearer <AUTH_TOKEN>'
-
+  const { authorization } = req.headers;
   if (!authorization) {
-    return res.sendStatus(403).send({ error: "You must be logged in" });
+    return res.status(401).json({ message: "You must be logged in" });
   }
 
   // This will allow us to remove the Bearer from the token so we can see the token itself
-  const token = authorization.replace("Bearer ", ""); // So instead of having this 'Bearer <AUTH_TOKEN>' we will now have this '<AUTH_TOKEN>'
+  const token = authorization.replace("Bearer ", "");
 
-  jwt.sign(token, process.env.MY_SECRET, async (err, payload) => {
-    if (err) {
-      return res.sendStatus(403).send({ error: "You must be logged in." });
+  try {
+    const payload = jwt.verify(token, process.env.MY_SECRET);
+    //check if userId is valid
+    if (!payload.userId) {
+      return res.status(401).json({ message: "You must be logged in" });
     }
-
-    // Destructind the id off the payload
-    const { userId } = payload;
-
-    const user = await User.findById(userId);
-
+    const user = await User.findById(payload.userId);
+    if (!user) {
+      return res.status(401).json({ message: "You must be logged in" });
+    }
     req.user = user;
     next();
-  });
+  } catch (err) {
+    res.status(401).json({ message: "You must be logged in" });
+  }
 };

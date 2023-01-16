@@ -9,9 +9,9 @@ const authRoutes = {
 
     try {
       const user = new User({ fullName, username, email, password });
-
       await user.save();
       const token = jwt.sign({ userId: user._id }, process.env.MY_SECRET);
+      console.log("user has signed up successfully");
       res.send({ token });
     } catch (error) {
       return res.sendStatus(422).send(error.message);
@@ -20,24 +20,25 @@ const authRoutes = {
 
   async signin(req, res) {
     const { password, email } = req.body;
-
     if (!email || !password) {
       return res
-        .sendStatus(422)
+        .status(422)
         .send({ error: "Must provide either email and password" });
     }
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.sendStatus(404).send({ error: "Invalid passoword or email!" });
+      return res.status(404).send({ error: "Invalid passoword or email!" });
     }
 
     try {
       await user.comparePassword(password);
-      const token = jwt.sign({ userId: user._id }, process.env.MY_SECRET);
-      res.send("You are now signed in!");
+      const payload = { userId: user._id };
+      const token = jwt.sign(payload, process.env.MY_SECRET);
+      console.log("user has signed in successfully");
+      res.status(200).send({ token });
     } catch (error) {
-      return res.sendStatus(404).send({ error: "Invalid email or password" });
+      return res.status(404).send({ error: "Invalid email or password" });
     }
   },
 };

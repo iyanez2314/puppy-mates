@@ -24,6 +24,7 @@ module.exports = async (req, res, next) => {
     req.user = user;
     next();
   } catch (err) {
+    console.log(err);
     return res.status(403).json({ error: "You must be logged in." });
   }
 };
