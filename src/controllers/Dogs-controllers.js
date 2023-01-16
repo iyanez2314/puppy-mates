@@ -1,7 +1,7 @@
 const { Dogs, User } = require("../models");
 
 const dogControllers = {
-  // GET all users
+  /* ------------------------------ GET all users ----------------------------- */
   getAllDogs(req, res) {
     Dogs.find({})
       .populate("owner")
@@ -12,14 +12,14 @@ const dogControllers = {
         res.status();
       });
   },
-  //GET all the dogs associated with Owner => GET /api/dogs/:ownerId
+  /* --- GET all the dogs associated with Owner => GET /api/dogs/:ownerId --- */
   getAllDogsAssociatedWithOwner({ params }, res) {
     const userId = params.userId;
     User.findOne({ _id: userId })
       .populate("dogs")
       .then((dbUserData) => {
         if (!dbUserData) {
-          res.status(404).json({ message: "No user found with this Id!" });
+          res.status(404).json({ message: "No user found with this id!" });
         }
         res.json(dbUserData);
       })
