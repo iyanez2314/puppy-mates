@@ -14,8 +14,8 @@ module.exports = async (req, res, next) => {
 
   try {
     const payload = jwt.verify(token, process.env.MY_SECRET);
-    const { id } = payload;
-    const user = await User.findById(id);
+    const { userId } = payload;
+    const user = await User.findById(userId);
 
     if (!user) {
       return res.status(403).json({ error: "You must be logged in." });
