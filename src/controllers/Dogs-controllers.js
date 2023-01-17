@@ -28,6 +28,7 @@ const dogControllers = {
       });
   },
 
+  /* -------------------------------- fix this -------------------------------- */
   updateDogInfo({ params, body }, res) {
     const userId = params.userId;
     const dogId = params.dogId;
