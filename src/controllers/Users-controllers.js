@@ -5,6 +5,7 @@ const userControllers = {
   getAllUsers(req, res) {
     User.find({})
       .populate("dogs")
+      .populate("posts")
       .then((dbUserData) => res.json(dbUserData))
       .catch((err) => {
         console.log(err);

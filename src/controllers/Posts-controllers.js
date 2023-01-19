@@ -1,4 +1,6 @@
 const { Posts, User } = require("../models");
+const mongoose = require("mongoose");
+const useVerification = require("../util/useVerification");
 
 const postsControllers = {
   /* ------------------------------- Create Post ------------------------------ */
@@ -60,23 +62,27 @@ const postsControllers = {
     const postInfo = body;
     const postId = params.id;
     const userId = params.userId;
+    useVerification(params);
+    // console.log(params);
+    // try {
+    //   const post = await Posts.findOne({
+    //     _id: postId,
+    //     user: new mongoose.Types.ObjectId(userId),
+    //   });
+    //   console.log(post);
+    //   if (!post) {
+    //     return res
+    //       .status(404)
+    //       .send({ error: "Post not found or you are not the owner" });
+    //   }
 
-    try {
-      const post = await Posts.findOne({ _id: postId, user: userId });
-
-      if (!post) {
-        return res
-          .status(404)
-          .send({ error: "Post not found or you are not the owner" });
-      }
-
-      const updatedPost = await Posts.findByIdAndUpdate(postId, postInfo, {
-        new: true,
-      });
-      res.send(updatedPost);
-    } catch (err) {
-      res.status(422).send(err.message);
-    }
+    //   const updatedPost = await Posts.findByIdAndUpdate(postId, postInfo, {
+    //     new: true,
+    //   });
+    //   res.send(updatedPost);
+    // } catch (err) {
+    //   res.status(422).send(err.message);
+    // }
   },
 };
 module.exports = postsControllers;
