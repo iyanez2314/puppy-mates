@@ -61,28 +61,33 @@ const postsControllers = {
   async updatePost({ params, body }, res) {
     const postInfo = body;
     const postId = params.id;
-    const userId = params.userId;
-    useVerification(params);
-    // console.log(params);
-    // try {
-    //   const post = await Posts.findOne({
-    //     _id: postId,
-    //     user: new mongoose.Types.ObjectId(userId),
-    //   });
-    //   console.log(post);
-    //   if (!post) {
-    //     return res
-    //       .status(404)
-    //       .send({ error: "Post not found or you are not the owner" });
-    //   }
-
-    //   const updatedPost = await Posts.findByIdAndUpdate(postId, postInfo, {
-    //     new: true,
-    //   });
-    //   res.send(updatedPost);
-    // } catch (err) {
-    //   res.status(422).send(err.message);
-    // }
+    try {
+      const isAbleToMakeEdit = await useVerification(params);
+      console.log(isAbleToMakeEdit);
+      if (isAbleToMakeEdit) {
+        let options = {
+          _id: postId,
+        };
+        console.log(options);
+        let post = await Posts.findOne(options);
+        console.log(post);
+        if (!post) {
+          return res
+            .status(404)
+            .send({ error: "Post not found or you are not the owner" });
+        }
+        const updatedPost = await Posts.findByIdAndUpdate(postId, postInfo, {
+          new: true,
+        });
+        res.send(updatedPost);
+      } else {
+        res
+          .status(401)
+          .send({ error: "You are not allowed to update this post" });
+      }
+    } catch (err) {
+      res.status(422).send({ error: err.message });
+    }
   },
 };
 module.exports = postsControllers;
