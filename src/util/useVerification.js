@@ -71,9 +71,5 @@ function verificationFactory(checkAgainstThisArray, objToCheck, option) {
 }
 
 function checkIfEqual(arg1, arg2) {
-  if (arg1.every((val) => arg2.includes(val)) && arg1.length === arg2.length) {
-    return true;
-  } else {
-    return false;
-  }
+  return arg1.every((val) => arg2.includes(val)) && arg1.length === arg2.length;
 }
