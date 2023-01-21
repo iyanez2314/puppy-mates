@@ -62,15 +62,12 @@ const postsControllers = {
     const postInfo = body;
     const postId = params.id;
     try {
-      const isAbleToMakeEdit = await useVerification(params);
-      console.log(isAbleToMakeEdit);
+      const isAbleToMakeEdit = await useVerification("post", params);
       if (isAbleToMakeEdit) {
         let options = {
           _id: postId,
         };
-        console.log(options);
         let post = await Posts.findOne(options);
-        console.log(post);
         if (!post) {
           return res
             .status(404)

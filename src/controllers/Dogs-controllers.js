@@ -1,4 +1,5 @@
 const { Dogs, User } = require("../models");
+const useVerification = require("../util/useVerification");
 
 const dogControllers = {
   /* ------------------------------ GET all users ----------------------------- */
@@ -29,27 +30,38 @@ const dogControllers = {
   },
 
   /* -------------------------------- fix this -------------------------------- */
-  updateDogInfo({ params, body }, res) {
+  async updateDogInfo({ params, body }, res) {
+    console.log("in use....");
+    const updatedDogInfo = body;
     const userId = params.userId;
     const dogId = params.dogId;
-    const updatedDogInfo = body;
-    Dogs.findOneAndUpdate({ _id: dogId }, updatedDogInfo, { new: true })
-      .then((dbDogData) => {
-        if (!dbDogData) {
-          res.status(404).json({ message: "No dog found with this id" });
-          return;
+    try {
+      const isAbleToMakeEdit = await useVerification("dog", params);
+      console.log(isAbleToMakeEdit);
+      if (isAbleToMakeEdit) {
+        let options = {
+          _id: dogId,
+        };
+        let dog = await Dogs.findOne(options);
+        if (!dog) {
+          return res
+            .status(404)
+            .send({ error: "Dog not found or you are not the owner" });
         }
-        res.json(dbDogData);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
-      });
+        const updatedDog = await Dogs.findByIdAndUpdate(dogId, updatedDogInfo, {
+          new: true,
+        });
+        res.send(updatedDog);
+      }
+    } catch (error) {
+      res.status(422).send({ error: error.message });
+    }
   },
 
   addDogToUser({ params, body }, res) {
-    const userId = params.userId;
     const newDog = body;
+    const userId = params.userId;
+
     Dogs.create(newDog)
       .then((dbDogData) => {
         return User.findOneAndUpdate(
