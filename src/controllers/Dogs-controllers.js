@@ -13,7 +13,7 @@ const dogControllers = {
         res.status();
       });
   },
-  /* --- GET all the dogs associated with Owner => GET /api/dogs/:ownerId --- */
+  /* --- GET all the dogs associated with Owner --- */
   getAllDogsAssociatedWithOwner({ params }, res) {
     const userId = params.userId;
     User.findOne({ _id: userId })
@@ -29,15 +29,13 @@ const dogControllers = {
       });
   },
 
-  /* -------------------------------- fix this -------------------------------- */
+  /* -------------------------------- PUT Dog info -------------------------------- */
   async updateDogInfo({ params, body }, res) {
-    console.log("in use....");
     const updatedDogInfo = body;
     const userId = params.userId;
     const dogId = params.dogId;
     try {
       const isAbleToMakeEdit = await useVerification("dog", params);
-      console.log(isAbleToMakeEdit);
       if (isAbleToMakeEdit) {
         let options = {
           _id: dogId,
@@ -58,6 +56,7 @@ const dogControllers = {
     }
   },
 
+  /* --------------------------- POST dog associated with user -------------------------- */
   addDogToUser({ params, body }, res) {
     const newDog = body;
     const userId = params.userId;
